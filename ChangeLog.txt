@@ -1,0 +1,38 @@
+
+State Threads Library Change Log
+================================
+
+The latest version is 1.1.
+
+Changes since 1.0:
+------------------
+
+  o  OpenBSD port.
+
+  o  Compile-time option to use poll() instead of select() for
+     event polling (see Makefile).
+     This is useful if you want to support a large number of open
+     file descriptors (larger than FD_SETSIZE) within a single
+     process.
+
+  o  Linux IA-64 port.
+     Two issues make IA-64 different from other platforms:
+
+     - Besides the traditional call stack in memory, IA-64 uses the
+       general register stack.  Thus each thread needs a backing store
+       for the register stack in addition to the memory stack.
+
+     - Current implementation of setjmp()/longjmp() can not be used
+       for thread context-switching since it assumes that only one
+       register stack exists.  Using special assembly functions for
+       context-switching is unavoidable.
+       
+  o  Thread stack capping on IRIX.
+     This allows some profiling tools (such as SpeedShop) to know when
+     to stop unwinding the stack.  Without this libexc, used by SpeedShop,
+     traces right off the stack and crashes.
+
+  o  Miscellaneous documentation additions.
+
+____________________________________________________________________________
+
